@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>iDental Care | Exceptional dental care for a confident smile</title>
+  <meta name="description" content="iDental Care combines advanced technology with personalized care for healthier, more confident smiles. Book your appointment today." />
+  <meta property="og:title" content="iDental Care" />
+  <meta property="og:description" content="Advanced, personalized dental care for the whole family at iDental Care." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1200&q=80&auto=format" />
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: {
+      fontFamily: { sans: ['Manrope', 'system-ui', 'sans-serif'] },
+      colors: { ink: '#111111', charcoal: '#181818', ice: '#DCEBFA', sky: '#BFD8F2', muted: '#6B7280', line: '#E5E7EB' }
+    } } }
+  </script>
+  <style>
+/* Custom styles that Tailwind utilities don't cover */
+html { -webkit-tap-highlight-color: transparent; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+/* Navbar gets a blur + soft shadow after scrolling */
+.nav-shell { transition: background .3s, box-shadow .3s, backdrop-filter .3s; }
+.nav-shell.is-scrolled { background: rgba(255,255,255,.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 6px 24px rgba(17,17,17,.06); }
+
+/* Nav link + active state */
+.nav-link { position: relative; color: #6B7280; transition: color .2s; }
+.nav-link:hover, .nav-link.is-active { color: #111; }
+.nav-link.is-active::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; border-radius: 2px; background: #111; }
+
+/* Service cards: subtle lift */
+.service-card { transition: transform .4s ease, border-color .4s; }
+.service-card:hover { transform: translateY(-6px); border-color: rgba(255,255,255,.22); }
+
+/* Hide animated items only when JS is running (prevents blank page if JS fails) */
+.js [data-reveal], .js .stagger-item, .js .hero-anim, .js .slide-card, .js .float-card { opacity: 0; }
+
+:focus-visible { outline: 2px solid #111; outline-offset: 3px; border-radius: 8px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal], .js .stagger-item, .js .hero-anim, .js .slide-card, .js .float-card { opacity: 1 !important; }
+  * { transition-duration: .01ms !important; }
+}
+
+/* Card image hover zoom (uses the standalone `scale` property so it composes with GSAP's scroll scale) */
+.img-wrap img { transition: scale .7s ease; }
+.service-card:hover .img-wrap img { scale: 1.03; }
+
+
+/* White headline words: soft shadow keeps them legible on the light gradient */
+.soft-white { color: #fff; text-shadow: 0 2px 28px rgba(50,100,170,.35); }
+
+/* Editorial italic accent word in headings */
+.serif-italic { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; letter-spacing: -0.01em; font-size: 1.12em; }
+
+/* Treatment Workflow interactive steps */
+.step-nav-btn {
+  font-family: 'Manrope', system-ui, sans-serif;
+  color: #64748B;
+  font-size: 1rem;
+  line-height: 1.4;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+  text-align: left;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.step-nav-btn:hover {
+  color: #0B1528;
+}
+.step-nav-btn.active-step {
+  font-family: 'Instrument Serif', Georgia, serif !important;
+  font-size: 2rem !important;
+  color: #0B1528 !important;
+  font-style: normal;
+  letter-spacing: -0.01em;
+}
+
+/* ---- Vertical review marquee ---- */
+@keyframes rev-scroll-up {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+.rev-col-a { animation: rev-scroll-up 22s linear infinite; }
+.rev-col-b { animation: rev-scroll-up 28s linear infinite; }
+.rev-col-c { animation: rev-scroll-up 18s linear infinite; }
+.rev-col:hover { animation-play-state: paused; }
+.rev-card { flex-shrink: 0; }
+
+/* Doctor team cards */
+.doctor-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2rem;
+  background: #BFD8F2;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.doctor-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.doctor-card:hover img { transform: scale(1.05) translateY(-6px); }
+.doctor-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(10, 30, 80, 0.92) 0%,
+    rgba(15, 45, 110, 0.70) 40%,
+    rgba(30, 80, 170, 0.15) 75%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.75rem;
+}
+.doctor-card:hover .doctor-overlay { opacity: 1; }
+.doctor-overlay-inner {
+  transform: translateY(8px);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.doctor-card:hover .doctor-overlay-inner { transform: translateY(0); }
+.doctor-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  transition: background 0.2s, transform 0.2s, border-color 0.2s;
+}
+.doctor-social a:hover {
+  background: rgba(255, 255, 255, 0.28);
+  border-color: rgba(255,255,255,0.6);
+  transform: translateY(-3px);
+}
+</style>
+</head>
+<body class="bg-white font-sans text-ink antialiased overflow-x-hidden">
+
+<!-- ================= NAVBAR ================= -->
+<header id="header" class="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6">
+  <nav class="nav-shell mx-auto flex max-w-7xl items-center justify-between rounded-full border border-line bg-white/80 px-4 py-2.5 sm:px-6" aria-label="Main">
+    <a href="#home" class="flex items-center group py-0" aria-label="iDental Care">
+      <img src="b7544c45-5b20-4286-8f57-9edcbed1e6da-removebg-preview.png" alt="iDental Care" class="h-20 sm:h-24 w-auto object-contain -my-6 transition-transform duration-300 group-hover:scale-105" />
+    </a>
+    <ul class="hidden items-center gap-8 text-sm md:flex">
+      <li><a class="nav-link" href="#home">Home</a></li>
+      <li><a class="nav-link" href="#services">Services</a></li>
+      <li><a class="nav-link" href="#about">About</a></li>
+      <li><a class="nav-link" href="#clinics">Our Clinics</a></li>
+      <li><a class="nav-link" href="#workflow">Process</a></li>
+      <li><a class="nav-link" href="#contact">Contact</a></li>
+    </ul>
+    <div class="flex items-center gap-2">
+      <button class="hidden rounded-full border border-line px-3 py-2 text-xs font-medium text-muted transition hover:text-ink lg:block" aria-label="Change language">EN</button>
+      <a href="#contact" class="hidden rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-white transition hover:bg-black/80 sm:block">Book Appointment</a>
+      <button id="menu-btn" class="grid h-10 w-10 place-items-center rounded-full border border-line md:hidden" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h16M4 16h16"/></svg>
+      </button>
+    </div>
+  </nav>
+  <div id="mobile-menu" class="mx-auto mt-2 hidden max-w-7xl rounded-3xl border border-line bg-white p-5 shadow-lg md:hidden">
+    <ul class="flex flex-col text-lg">
+      <li><a class="mobile-link block border-b border-line py-3" href="#home">Home</a></li>
+      <li><a class="mobile-link block border-b border-line py-3" href="#services">Services</a></li>
+      <li><a class="mobile-link block border-b border-line py-3" href="#about">About</a></li>
+      <li><a class="mobile-link block border-b border-line py-3" href="#clinics">Our Clinics</a></li>
+      <li><a class="mobile-link block border-b border-line py-3" href="#workflow">Process</a></li>
+      <li><a class="mobile-link block py-3" href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="mobile-link mt-3 block rounded-full bg-ink py-3.5 text-center font-medium text-white">Book Appointment</a>
+  </div>
+</header>
+
+<main>
+<!-- ================= HERO ================= -->
+<!-- Layers: gradient + big word (back) → headline (middle) → implant PNG (front, overlaps the headline) -->
+<section id="home" class="relative overflow-hidden rounded-b-[2rem] bg-gradient-to-br from-[#d3e3f5] via-[#bcd8f5] to-[#a3c8f0] sm:rounded-b-[3rem]">
+
+  <!-- Content layer -->
+  <div class="relative z-10 px-5 pt-28 sm:px-10 lg:flex lg:min-h-[100svh] lg:flex-col lg:justify-center lg:px-14 lg:pb-16 lg:pt-28">
+    <span class="hero-anim mb-6 inline-flex w-fit items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-medium shadow-sm"><span class="h-1.5 w-1.5 rounded-full bg-ink"></span>Trusted Dental Care</span>
+
+    <h1 class="hero-anim flex flex-col text-[3rem] font-light leading-[0.98] tracking-[-0.04em] sm:text-7xl lg:flex-row lg:justify-between lg:text-[6.4vw]">
+      <span class="block"><span class="block">Exceptional</span><span class="block"><span class="soft-white">Dental</span> Care</span></span>
+      <span class="block lg:text-right"><span class="block">&amp; Confident</span><span class="soft-white block">Smile</span></span>
+    </h1>
+
+    <div class="mt-8 lg:mt-10 lg:grid lg:grid-cols-12 lg:items-end">
+      <div class="lg:col-span-4">
+        <p class="hero-anim max-w-sm text-base leading-relaxed text-ink/60">We combine advanced dental technology with personalized care to create healthier, confident smiles.</p>
+        <div class="hero-anim mt-7 flex items-center gap-4">
+          <a href="#contact" class="inline-flex min-h-[52px] items-center gap-3 bg-ink px-7 py-3.5 text-sm font-medium text-white transition hover:gap-4 hover:bg-black/80">Book Appointment <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <!-- Mini stats -->
+      <div class="hero-anim mt-8 flex gap-10 lg:col-span-3 lg:col-start-10 lg:mt-0 lg:flex-col lg:gap-7 lg:text-right">
+        <div><p class="text-4xl font-light tracking-tighter sm:text-5xl">12k+</p><p class="mt-1 text-xs text-ink/55">Patients treated</p></div>
+        <div><p class="text-4xl font-light tracking-tighter sm:text-5xl">15+</p><p class="mt-1 text-xs text-ink/55">Years of experience</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Clinic info (desktop) -->
+  <div class="hero-anim absolute right-14 top-28 z-10 hidden text-right text-xs leading-relaxed text-ink/60 lg:block">
+    <p>We're open today</p><p class="font-medium text-ink">9:00 am – 8:00 pm</p><p class="mt-3">Gulberg III, Lahore</p>
+  </div>
+
+  <!-- Visual layers. Replace assets/implant.webp to change the image; edit the word/color below -->
+  <div class="hero-bg relative mt-4 aspect-[4/5] w-full overflow-hidden sm:aspect-square lg:absolute lg:inset-0 lg:mt-0 lg:aspect-auto">
+    <div class="pointer-events-none absolute inset-x-0 -bottom-[0.06em] z-0 flex justify-center" aria-hidden="true">
+      <span class="hero-word select-none whitespace-nowrap text-[30vw] font-semibold leading-[0.9] tracking-tighter text-white/45 lg:text-[23vw]">iDental</span>
+    </div>
+    <div class="pointer-events-none absolute inset-0 z-20 flex items-end justify-center">
+      <img class="hero-img h-[92%] w-auto max-w-none object-contain lg:h-[88%]" src="hero-removebg-preview (1).png" alt="3D dental implant with a porcelain crown above a titanium abutment and screw" width="237" height="335" fetchpriority="high" />
+    </div>
+  </div>
+</section>
+
+<!-- ================= STATS ================= -->
+<section class="mx-auto max-w-7xl px-6 py-16 sm:py-24" aria-label="Clinic statistics">
+  <dl class="grid grid-cols-2 gap-y-10 lg:grid-cols-4" data-stagger>
+    <div class="stat px-4 text-center lg:border-r lg:border-line"><dd class="text-5xl font-semibold tracking-tighter sm:text-6xl"><span data-count="170">170</span>+</dd><dt class="mt-2 text-sm text-muted">Successful Procedures</dt></div>
+    <div class="stat px-4 text-center lg:border-r lg:border-line"><dd class="text-5xl font-semibold tracking-tighter sm:text-6xl"><span data-count="85">85</span>+</dd><dt class="mt-2 text-sm text-muted">Happy Patients</dt></div>
+    <div class="stat px-4 text-center lg:border-r lg:border-line"><dd class="text-5xl font-semibold tracking-tighter sm:text-6xl"><span data-count="176">176</span></dd><dt class="mt-2 text-sm text-muted">Expert Staff</dt></div>
+    <div class="stat px-4 text-center"><dd class="text-5xl font-semibold tracking-tighter sm:text-6xl"><span data-count="98">98</span>%</dd><dt class="mt-2 text-sm text-muted">Patient Satisfaction</dt></div>
+  </dl>
+</section>
+
+<!-- ================= COMMON DENTAL PROBLEMS =================
+  teeth.webp = your infographic (teeth + 6 circles, 1536x1024). The text points are placed beside each circle.
+  xl (1280px+): label | image | label, each label vertically centred on its circle.
+  Below xl: image on top, points in a grid underneath. -->
+<section id="problems" class="mx-auto max-w-7xl px-6 pb-20 sm:pb-28" aria-labelledby="problems-title">
+  <div class="text-center" data-reveal>
+    <span class="inline-flex items-center gap-2 rounded-full bg-ice px-5 py-2.5 text-sm font-medium"><span aria-hidden="true">✚</span>Causes<span aria-hidden="true">✚</span></span>
+    <h2 id="problems-title" class="mt-6 text-4xl font-medium tracking-tighter sm:text-6xl">Common <em class="serif-italic font-normal">Dental</em> Problems</h2>
+  </div>
+
+  <div class="problems-diagram relative mx-auto mt-8 max-w-6xl xl:grid xl:max-w-none xl:grid-cols-[240px_minmax(0,1fr)_240px]" data-reveal>
+    <img class="mx-auto h-auto w-full max-w-3xl mix-blend-multiply xl:col-start-2 xl:max-w-none" loading="lazy" src="teeth.webp" width="1536" height="1024"
+         alt="3D teeth and gums with close-ups of cavities, gingivitis, plaque, sensitivity, crowding and staining" />
+
+    <ol class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:absolute xl:inset-0 xl:mt-0 xl:block" data-stagger>
+      <li class="stagger-item flex items-start gap-4 xl:absolute xl:top-[19%] xl:h-0 xl:w-[240px] xl:items-center xl:left-0 xl:flex-row-reverse xl:text-right">
+        <span class="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-ice">01</span>
+        <div class="min-w-0"><h3 class="text-xl font-semibold tracking-tight">Cavities</h3><p class="mt-1 text-sm leading-relaxed text-muted">Tooth decay creates holes and causes tooth pain.</p></div>
+      </li>
+      <li class="stagger-item flex items-start gap-4 xl:absolute xl:top-[19%] xl:h-0 xl:w-[240px] xl:items-center xl:right-0">
+        <span class="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-ice">02</span>
+        <div class="min-w-0"><h3 class="text-xl font-semibold tracking-tight">Gingivitis</h3><p class="mt-1 text-sm leading-relaxed text-muted">Inflamed gums may bleed and damage oral health.</p></div>
+      </li>
+      <li class="stagger-item flex items-start gap-4 xl:absolute xl:top-[48.1%] xl:h-0 xl:w-[240px] xl:items-center xl:left-0 xl:flex-row-reverse xl:text-right">
+        <span class="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-ice">03</span>
+        <div class="min-w-0"><h3 class="text-xl font-semibold tracking-tight">Plaque</h3><p class="mt-1 text-sm leading-relaxed text-muted">Plaque builds on teeth and causes problems.</p></div>
+      </li>
+      <li class="stagger-item flex items-start gap-4 xl:absolute xl:top-[48.1%] xl:h-0 xl:w-[240px] xl:items-center xl:right-0">
+        <span class="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-ice">04</span>
+        <div class="min-w-0"><h3 class="text-xl font-semibold tracking-tight">Sensitivity</h3><p class="mt-1 text-sm leading-relaxed text-muted">Sensitive teeth hurt badly with hot or cold.</p></div>
+      </li>
+      <li class="stagger-item flex items-start gap-4 xl:absolute xl:top-[77.6%] xl:h-0 xl:w-[240px] xl:items-center xl:left-0 xl:flex-row-reverse xl:text-right">
+        <span class="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-ice">05</span>
+        <div class="min-w-0"><h3 class="text-xl font-semibold tracking-tight">Crowding</h3><p class="mt-1 text-sm leading-relaxed text-muted">Misaligned teeth affect bite, comfort, and appearance.</p></div>
+      </li>
+      <li class="stagger-item flex items-start gap-4 xl:absolute xl:top-[77.6%] xl:h-0 xl:w-[240px] xl:items-center xl:right-0">
+        <span class="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-ice">06</span>
+        <div class="min-w-0"><h3 class="text-xl font-semibold tracking-tight">Staining</h3><p class="mt-1 text-sm leading-relaxed text-muted">Teeth discolor from foods, drinks, and smoking.</p></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section id="services" class="px-3 sm:px-6">
+  <div class="mx-auto max-w-7xl rounded-[2rem] bg-charcoal p-6 text-white sm:rounded-[2.5rem] sm:p-12 lg:p-16">
+    <div class="grid gap-6 lg:grid-cols-2 lg:items-end" data-reveal>
+      <h2 class="text-3xl font-light leading-tight tracking-tighter sm:text-5xl">We specialize in your smile, <span class="text-white/45">whatever your dental needs.</span></h2>
+      <p class="max-w-md text-white/60 lg:ml-auto">From routine check-ups to complex restorations, every treatment is planned around you and delivered with modern, gentle techniques.</p>
+    </div>
+    <div class="mt-12 grid gap-5 md:grid-cols-3" data-stagger>
+      <!-- Service card: copy this block to add more services -->
+      <article class="service-card stagger-item group rounded-3xl border border-white/10 bg-white/[0.06] p-3">
+        <div class="img-wrap aspect-[4/3] overflow-hidden rounded-2xl bg-white/10"><img loading="lazy" src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=700&q=80&auto=format" alt="Dentist tools for a preventive check-up" class="h-full w-full object-cover" width="700" height="525" /></div>
+        <div class="flex items-start justify-between gap-4 p-4">
+          <div><h3 class="text-xl font-medium">Preventive Care</h3><p class="mt-2 text-sm leading-relaxed text-white/55">Regular exams and X-rays that catch problems before they hurt.</p></div>
+          <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/20 transition group-hover:translate-x-1" aria-hidden="true">→</span>
+        </div>
+      </article>
+      <article class="service-card stagger-item group rounded-3xl border border-white/10 bg-white/[0.06] p-3">
+        <div class="img-wrap aspect-[4/3] overflow-hidden rounded-2xl bg-white/10"><img loading="lazy" src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=700&q=80&auto=format" alt="Patient receiving a professional teeth cleaning" class="h-full w-full object-cover" width="700" height="525" /></div>
+        <div class="flex items-start justify-between gap-4 p-4">
+          <div><h3 class="text-xl font-medium">Professional Cleaning</h3><p class="mt-2 text-sm leading-relaxed text-white/55">Deep scaling and polishing for fresher breath and healthier gums.</p></div>
+          <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/20 transition group-hover:translate-x-1" aria-hidden="true">→</span>
+        </div>
+      </article>
+      <article class="service-card stagger-item group rounded-3xl border border-white/10 bg-white/[0.06] p-3">
+        <div class="img-wrap aspect-[4/3] overflow-hidden rounded-2xl bg-white/10"><img loading="lazy" src="https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=700&q=80&auto=format" alt="Dentist working on a restorative treatment" class="h-full w-full object-cover" width="700" height="525" /></div>
+        <div class="flex items-start justify-between gap-4 p-4">
+          <div><h3 class="text-xl font-medium">Restorative Dentistry</h3><p class="mt-2 text-sm leading-relaxed text-white/55">Fillings, crowns and implants that restore strength and appearance.</p></div>
+          <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/20 transition group-hover:translate-x-1" aria-hidden="true">→</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MEMBERSHIP ================= -->
+<section id="about" class="mx-auto max-w-7xl px-6 py-20 sm:py-28">
+  <div class="grid gap-12 lg:grid-cols-12 lg:items-center">
+    <div class="lg:col-span-6" data-reveal>
+      <h2 class="text-3xl font-light leading-tight tracking-tighter sm:text-5xl">Your family's dental health <span class="text-ink/40">deserves better care.</span></h2>
+      <p class="mt-6 max-w-md text-muted">Join our family plan and get preventive visits, cleanings and priority booking for every member, for one simple yearly fee.</p>
+      <a href="#contact" class="mt-8 inline-flex min-h-[48px] items-center gap-2 rounded-full bg-ink px-7 py-3.5 font-medium text-white transition hover:gap-3">Explore Our Plan <span aria-hidden="true">→</span></a>
+    </div>
+    <div class="relative lg:col-span-6 lg:pl-8">
+      <div class="slide-card rounded-[2rem] bg-ice p-8 sm:p-12">
+        <p class="text-7xl font-semibold tracking-tighter sm:text-8xl">80%</p>
+        <p class="mt-4 max-w-xs text-lg text-ink/70">Save on selected dental procedures, cleanings and exams.</p>
+      </div>
+      <div class="slide-card -mt-6 ml-6 rounded-[2rem] border border-line bg-white p-6 shadow-sm sm:ml-16 sm:p-8">
+        <p class="font-semibold">Family of up to 6</p>
+        <p class="mt-1 text-sm text-muted">Two check-ups per person each year, X-rays included.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHY US ================= -->
+<section id="clinics" class="px-3 sm:px-6">
+  <div class="mx-auto max-w-7xl rounded-[2rem] border border-line p-6 sm:rounded-[2.5rem] sm:p-12 lg:p-16">
+    <h2 class="max-w-2xl text-3xl font-light tracking-tighter sm:text-5xl" data-reveal>Why patients choose us</h2>
+    <div class="mt-12 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4" data-stagger>
+      <div class="stagger-item"><span class="grid h-12 w-12 place-items-center rounded-full bg-ice" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 12h6M12 9v6"/></svg></span><h3 class="mt-5 text-lg font-medium">Advanced Technology</h3><p class="mt-2 text-sm leading-relaxed text-muted">Digital scans and 3D imaging for accurate, faster treatment.</p></div>
+      <div class="stagger-item"><span class="grid h-12 w-12 place-items-center rounded-full bg-ice" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg></span><h3 class="mt-5 text-lg font-medium">Experienced Dentists</h3><p class="mt-2 text-sm leading-relaxed text-muted">Specialists with years of training across every field of dentistry.</p></div>
+      <div class="stagger-item"><span class="grid h-12 w-12 place-items-center rounded-full bg-ice" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-8-5-8-11a4.500 4.500 0 018-2.500A4.500 4.500 0 0120 10c0 6-8 11-8 11z"/></svg></span><h3 class="mt-5 text-lg font-medium">Personalized Treatment</h3><p class="mt-2 text-sm leading-relaxed text-muted">A clear plan built around your goals, budget and schedule.</p></div>
+      <div class="stagger-item"><span class="grid h-12 w-12 place-items-center rounded-full bg-ice" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 18h18M5 18v-6a3 3 0 013-3h8a3 3 0 013 3v6M8 9V6"/></svg></span><h3 class="mt-5 text-lg font-medium">Comfortable Environment</h3><p class="mt-2 text-sm leading-relaxed text-muted">A calm, quiet space designed to put nervous patients at ease.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TREATMENT WORK FLOW ================= -->
+<section id="workflow" class="mx-auto max-w-7xl px-6 py-20 sm:py-28" aria-labelledby="workflow-title">
+  <!-- Top badge -->
+  <div data-reveal>
+    <span class="inline-flex items-center gap-1.5 rounded-full bg-[#D7E9FA] px-4 py-1.5 text-xs font-medium text-[#1A385C]">
+      <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"/></svg>
+      Process
+      <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"/></svg>
+    </span>
+  </div>
+
+  <!-- Header row -->
+  <div class="mt-6 flex flex-col justify-between gap-6 lg:flex-row lg:items-end" data-reveal>
+    <h2 id="workflow-title" class="text-4xl font-light tracking-tight text-[#0B1528] sm:text-5xl lg:text-6xl">
+      Treatment <em class="serif-italic font-normal">Work</em> Flow
+    </h2>
+    <p class="max-w-md text-sm leading-relaxed text-muted lg:text-right">
+      Our step-by-step approach helps patients receive accurate diagnoses, effective treatments, and lasting results.
+    </p>
+  </div>
+
+  <!-- Content grid: Left Card | Center Steps | Right Active Step -->
+  <div class="mt-14 grid gap-10 lg:grid-cols-12 lg:items-start" data-reveal>
+    
+    <!-- Left Column: Smile Transformation Card & CTA Button -->
+    <div class="flex flex-col lg:col-span-4 xl:col-span-4">
+      <div class="rounded-3xl bg-[#D6E9FA] p-4 sm:p-5 shadow-sm">
+        <div class="mb-3 flex items-center gap-2 text-xs sm:text-sm font-medium text-ink">
+          <span class="h-1.5 w-1.5 rounded-full bg-ink"></span>
+          See How We Transform Your Smile
+        </div>
+        <div class="overflow-hidden rounded-2xl aspect-[16/11] bg-white/40">
+          <img loading="lazy" src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=700&q=80&auto=format" alt="Dentists performing smile transformation" class="h-full w-full object-cover" width="700" height="480" />
+        </div>
+      </div>
+
+      <div class="my-6 border-t border-[#D6E3F0]"></div>
+
+      <div>
+        <a href="#contact" class="inline-flex items-center gap-3 rounded-full border border-[#4A8BE2] bg-[#EBF4FE] px-6 py-3 text-sm font-medium text-[#1E3A8A] transition-all hover:bg-[#3B82F6] hover:text-white hover:border-[#3B82F6] group">
+          <span>Book An Appointment</span>
+          <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Center Column: Steps list -->
+    <div class="flex flex-col justify-center space-y-6 pt-2 lg:col-span-3 xl:col-span-2 lg:pl-6">
+      <button type="button" class="step-nav-btn text-left transition-all duration-300 font-serif text-3xl font-normal text-[#0B1528] active-step" data-step="0">Step 01</button>
+      <button type="button" class="step-nav-btn text-left text-base text-[#64748B] hover:text-[#0B1528] transition-all duration-300" data-step="1">Step 02</button>
+      <button type="button" class="step-nav-btn text-left text-base text-[#64748B] hover:text-[#0B1528] transition-all duration-300" data-step="2">Step 03</button>
+      <button type="button" class="step-nav-btn text-left text-base text-[#64748B] hover:text-[#0B1528] transition-all duration-300" data-step="3">Step 04</button>
+      <button type="button" class="step-nav-btn text-left text-base text-[#64748B] hover:text-[#0B1528] transition-all duration-300" data-step="4">Step 05</button>
+      <button type="button" class="step-nav-btn text-left text-base text-[#64748B] hover:text-[#0B1528] transition-all duration-300" data-step="5">Step 06</button>
+    </div>
+
+    <!-- Right Column: Step Preview Image & Details -->
+    <div class="lg:col-span-5 xl:col-span-6">
+      <div class="overflow-hidden rounded-[2rem] aspect-[16/10] bg-[#E8EEF5] shadow-sm">
+        <img id="workflow-img" loading="lazy" src="appointment.avif" alt="Book appointment consultation" class="h-full w-full object-cover transition-opacity duration-300" width="900" height="562" />
+      </div>
+      <div class="mt-6">
+        <h3 id="workflow-step-title" class="text-2xl font-bold tracking-tight text-[#0B1528] sm:text-3xl">Book Appointment</h3>
+        <p id="workflow-step-desc" class="mt-3 max-w-lg text-sm leading-relaxed text-muted sm:text-base">
+          Schedule your dental visit easily with flexible timing, friendly support, and quick appointment confirmation for every patient.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= TEAM ================= -->
+<section id="team" class="mx-auto max-w-7xl px-6 py-20 sm:py-28" aria-labelledby="team-title">
+
+  <!-- Header row -->
+  <div class="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center" data-reveal>
+    <div>
+      <span class="inline-flex items-center gap-1.5 rounded-full bg-[#D7E9FA] px-4 py-1.5 text-xs font-medium text-[#1A385C]">
+        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"/></svg>
+        Expert Dentists
+        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"/></svg>
+      </span>
+      <h2 id="team-title" class="mt-5 text-4xl font-light tracking-tight text-[#0B1528] sm:text-5xl lg:text-6xl">
+        Digital <em class="serif-italic font-normal">Care Experts</em> Team
+      </h2>
+    </div>
+    <a href="#contact" class="inline-flex shrink-0 items-center gap-2 rounded-full border border-[#4A8BE2] bg-[#EBF4FE] px-5 py-2.5 text-sm font-medium text-[#1E3A8A] transition-all hover:bg-[#3B82F6] hover:text-white hover:border-[#3B82F6] group">
+      Meet Doctors
+      <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+    </a>
+  </div>
+
+  <!-- Cards grid: staggered heights matching reference design -->
+  <div class="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-3 sm:items-end" data-stagger>
+
+    <!-- Doctor 1 — Dr. Sara Ahmed -->
+    <div class="doctor-card stagger-item" style="height: 440px;">
+      <img src="HPzygM342Lrjte1dCRXeXUIhnY.png" alt="Dr. Sara Ahmed" />
+      <div class="doctor-overlay">
+        <div class="doctor-overlay-inner">
+          <p class="text-[10px] font-semibold uppercase tracking-[0.15em] text-white/55">General Dentist</p>
+          <h3 class="mt-1.5 text-xl font-bold text-white">Dr. Sara Ahmed</h3>
+          <div class="doctor-social mt-3.5 flex gap-2">
+            <a href="#" aria-label="Instagram">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="#" aria-label="X / Twitter">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L2.25 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Doctor 2 — Dr. Karim Hassan (centre, taller) -->
+    <div class="doctor-card stagger-item" style="height: 500px;">
+      <img src="R58J0IyQG6AOsV8RszBt7AEZYpw.png" alt="Dr. Karim Hassan" />
+      <div class="doctor-overlay">
+        <div class="doctor-overlay-inner">
+          <p class="text-[10px] font-semibold uppercase tracking-[0.15em] text-white/55">Orthodontist</p>
+          <h3 class="mt-1.5 text-xl font-bold text-white">Dr. Karim Hassan</h3>
+          <div class="doctor-social mt-3.5 flex gap-2">
+            <a href="#" aria-label="Instagram">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="#" aria-label="X / Twitter">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L2.25 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Doctor 3 — Dr. Nadia Raza -->
+    <div class="doctor-card stagger-item" style="height: 440px;">
+      <img src="2MQV1I4rqyn96LpJQKhOpcjaOQ.png" alt="Dr. Nadia Raza" />
+      <div class="doctor-overlay">
+        <div class="doctor-overlay-inner">
+          <p class="text-[10px] font-semibold uppercase tracking-[0.15em] text-white/55">Cosmetic Dentist</p>
+          <h3 class="mt-1.5 text-xl font-bold text-white">Dr. Nadia Raza</h3>
+          <div class="doctor-social mt-3.5 flex gap-2">
+            <a href="#" aria-label="Instagram">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="#" aria-label="X / Twitter">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L2.25 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= TESTIMONIALS ================= -->
+<section id="testimonials" class="mx-auto max-w-7xl px-6 pb-20 sm:pb-28" aria-labelledby="reviews-title">
+
+  <!-- Header -->
+  <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between" data-reveal>
+    <div>
+      <span class="inline-flex items-center gap-1.5 rounded-full bg-[#D7E9FA] px-4 py-1.5 text-xs font-medium text-[#1A385C]">
+        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"/></svg>
+        Testimonials
+        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"/></svg>
+      </span>
+      <h2 id="reviews-title" class="mt-5 max-w-xl text-4xl font-light leading-[1.1] tracking-tight text-[#0B1528] sm:text-5xl lg:text-6xl">
+        Trusted <em class="serif-italic font-normal">Feedback From<br><span style="font-style:italic;">Valued</span></em> Patients.
+      </h2>
+    </div>
+    <div class="flex flex-col items-start gap-5 lg:items-end lg:text-right">
+      <p class="max-w-xs text-sm leading-relaxed text-muted">Patient reviews show our gentle care, new tools, and great results.</p>
+      <div class="flex gap-3">
+        <button id="rev-prev" aria-label="Previous" class="grid h-12 w-12 place-items-center rounded-full bg-[#D7E9FA] text-[#1E3A8A] transition hover:bg-[#3B82F6] hover:text-white">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+        </button>
+        <button id="rev-next" aria-label="Next" class="grid h-12 w-12 place-items-center rounded-full bg-[#D7E9FA] text-[#1E3A8A] transition hover:bg-[#3B82F6] hover:text-white">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3-column vertical auto-scroll marquee -->
+  <div class="relative mt-14 grid grid-cols-1 gap-5 overflow-hidden sm:grid-cols-3" style="height:560px;" aria-hidden="true">
+    <!-- Fade masks top & bottom -->
+    <div class="pointer-events-none absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b from-white to-transparent"></div>
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-24 bg-gradient-to-t from-white to-transparent"></div>
+
+    <!-- Column 1 — scrolls up (speed A) -->
+    <div class="rev-col rev-col-a flex flex-col gap-5">
+      <!-- set 1 -->
+      <figure class="rev-card rounded-3xl bg-[#EBF4FE] p-6">
+        <div class="flex items-center gap-3">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Olivia Thompson" class="h-10 w-10 rounded-full object-cover" />
+          <span class="font-semibold text-[#0B1528] text-sm">Olivia Thompson</span>
+        </div>
+        <p class="mt-5 text-3xl font-bold text-[#3B82F6] leading-none">"</p>
+        <blockquote class="mt-2 text-sm leading-relaxed text-[#374151]">"The treatment process was smooth and stress-free. The staff demonstrated professionalism and compassion, making me feel confident about my dental health."</blockquote>
+      </figure>
+      <figure class="rev-card rounded-3xl bg-[#EBF4FE] p-6">
+        <div class="flex items-center gap-3">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="James Carter" class="h-10 w-10 rounded-full object-cover" />
+          <span class="font-semibold text-[#0B1528] text-sm">James Carter</span>
+        </div>
+        <p class="mt-5 text-3xl font-bold text-[#3B82F6] leading-none">"</p>
+        <blockquote class="mt-2 text-sm leading-relaxed text-[#374151]">"Outstanding service! Every appointment has been a pleasure. They truly care about patient comfort and deliver excellent results every single time."</blockquote>
+      </figure>
+      <figure class="rev-card rounded-3xl bg-[#EBF4FE] p-6">
+        <div class="flex items-center gap-3">
+          <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Priya Sharma" class="h-10 w-10 rounded-full object-cover" />
+          <span class="font-semibold text-[#0B1528] text-sm">Priya Sharma</span>
+        </div>
+        <p class="mt-5 text-3xl font-bold text-[#3B82F6] leading-none">"</p>
+        <blockquote class="mt-2 text-sm leading-relaxed text-[#374151]">"Highly recommended! The team answered every question patiently and made sure I was comfortable throughout my entire procedure."</blockquote>
+      </figure>
+      <!-- set 2 (duplicate for infinite loop) -->
+      <figure class="rev-card rounded-3xl bg-[#EBF4FE] p-6">
+        <div class="flex items-center gap-3">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Olivia Thompson" class="h-10 w-10 rounded-full object-cover" />
+          <span class="font-semibold text-[#0B1528] text-sm">Olivia Thompson</span>
+        </div>
+        <p class="mt-5 text-3xl font-bold text-[#3B82F6] leading-none">"</p>
+        <blockquote class="mt-2 text-sm leading-relaxed text-[#374151]">"The treatment process was smooth and stress-free. The staff demonstrated professionalism and compassion, making me feel confident about my dental health."</blockquote>
+      </figure>
+      <figure class="rev-card rounded-3xl bg-[#EBF4FE] p-6">
+        <div class="flex items-center gap-3">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="James Carter" class="h-10 w-10 rounded-full object-cover" />
+          <span class="font-semibold text-[#0B1528] text-sm">James Carter</span>
+        </div>
+        <p class="mt-5 text-3xl font-bold text-[#3B82F6] leading-none">"</p>
+        <blockquote class="mt-2 text-sm leading-relaxed text-[#374151]">"Outstanding service! Every appointment has been a pleasure. They truly care about patient comfort and deliver excellent results every single time."</blockquote>
+      </figure>
+      <figure class="rev-card rounded-3xl bg-[#EBF4FE] p-6">
+        <div class="flex items-center gap-3">
+          <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Priya Sharma" class="h-10 w-10 rounded-full object-cover" />
+          <span class="font-semibold text-[#0B1528] text-sm">Priya Sharma</span>
+        </div>
+        <p class="mt-5 text-3xl font-bold text-[#3B82F6] leading-none">"</p>
+        <blockquote class="mt-2 text-sm leading-relaxed text-[#374151]">"Highly recommended! The team answered every question patiently and made sure I was comfortable throughout my entire procedure."</blockquote>
+      </figure>
+    </div>
+
+    <!-- Column 2 — featured dark card, scrolls up slower -->
+    <div class="rev-col rev-col-b flex flex-col gap-5">
+      <!-- set 1 -->
+      <figure class="rev-card relative overflow-hidden rounded-3xl" style="min-height:260px;">
+        <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=500&q=80&auto=format" alt="Isabella Moore" class="absolute inset-0 h-full w-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-[rgba(10,30,80,0.88)] via-[rgba(15,45,110,0.55)] to-transparent"></div>
+        <div class="relative flex h-full flex-col justify-between p-6" style="min-height:260px;">
+          <div class="flex items-center gap-3">
+            <img src="https://randomuser.me/api/portraits/women/57.jpg" alt="Isabella Moore" class="h-10 w-10 rounded-full object-cover ring-2 ring-white/40" />
+            <span class="font-semibold text-white text-sm">Isabella Moore</span>
+          </div>
+          <div class="mt-auto">
+            <p class="text-3xl font-bold text-[#60A5FA] leading-none">"</p>
+            <blockquote class="mt-2 text-sm leading-relaxed text-white">"Clean clinic, modern equipment, and friendly staff made my teeth cleaning experience smooth and painless. I will definitely return for future dental checkups soon again."</blockquote>
+          </div>
+        </div>
+      </figure>
+      <figure class="rev-card rounded-3xl bg-[#0B1528] p-6">
+        <div class="flex items-center gap-3">
+          <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Hamza Raza" class="h-10 w-10 rounded-full object-cover" />
+          <span class="font-semibold text-white text-sm">Hamza Raza</span>
+        </div>
+        <p class="mt-5 text-3xl font-bold text-[#60A5FA] leading-none">"</p>
+        <blockquote class="mt-2 text-sm leading-relaxed text-white/80">"They explained every step of my implant procedure clearly and the result looks completely natural. Best dental experience I have had."</blockquote>
+      </figure>
+      <figure class="rev-card relative overflow-hidden rounded-3xl" style="min-height:240px;">
+        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=500&q=80&auto=format" alt="Aisha Khan" class="absolute inset-0 h-full w-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-[rgba(10,30,80,0.88)] via-[rgba(15,45,110,0.5)] to-transparent"></div>
+        <div class="relative flex h-full flex-col justify-between p-6" style="min-height:240px;">
+          <div class="flex items-center gap-3">
+            <img src="https://randomuser.me/api/portraits/women/21.jpg" alt="Aisha Khan" class="h-10 w-10 rounded-full object-cover ring-2 ring-white/40" />
+            <span class="font-semibold text-white text-sm">Aisha Khan</span>
+          </div>
+          <div class="mt-auto">
+            <p class="text-3xl font-bold text-[#60A5FA] leading-none">"</p>
+            <blockquote class="mt-2 text-sm leading-relaxed text-white">"Transformed my smile in just two visits. The doctors are highly skilled and the clinic environment is incredibly soothing."</blockquote>
+          </div>
+        </div>
+      </figure>
+      <!-- set 2 duplicate -->
+      <figure class="rev-card relative overflow-hidden rounded-3xl" style="min-height:260px;">
+        <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=500&q=80&auto=format" alt="Isabella Moore" class="absolute inset-0 h-full w-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-[rgba(10,30,80,0.88)] via-[rgba(15,45,110,0.55)] to-transparent"></div>
+        <div class="relative flex h-full flex-col justify-between p-6" style="min-height:260px;">
+          <div class="flex items-center gap-3">
+            <img src="https://randomuser.me/api/portraits/women/57.jpg" alt="Isabella Moore" class="h-10 w-10 rounded-full object-cover ring-2 ring-white/40" />
+            <span class="font-semibold text-white text-sm">Isabella Moore</span>
+          </div>
+          <div class="mt-auto">
+            <p class="text-3xl font-bold text-[#60A5FA] leading-none">"</p>
+            <blockquote class="mt-2 text-sm leading-relaxed text-white">"Clean clinic, modern equipment, and friendly staff made my teeth cleaning experience smooth and painless. I will definitely return for future dental checkups soon again."</blockquote>
+          </div>
+        </div>
+      </figure>
+      <figure class="rev-card rounded-3xl bg-[#0B1528] p-6">
+        <div class="flex items-center gap-3">
+          <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Hamza Raza" class="h-10 w-10 rounded-full object-cover" />
+          <span class="font-semibold text-white text-sm">Hamza Raza</span>
+        </div>
+        <p class="mt-5 text-3xl font-bold text-[#60A5FA] leading-none">"</p>
+        <blockquote class="mt-2 text-sm leading-relaxed text-white/80">"They explained every step of my implant procedure clearly and the result looks completely natural. Best dental experience I have had."</blockquote>
+      </figure>
+      <figure class="rev-card relative overflow-hidden rounded-3xl" style="min-height:240px;">
+        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=500&q=80&auto=format" alt="Aisha Khan" class="absolute inset-0 h-full w-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-[rgba(10,30,80,0.88)] via-[rgba(15,45,110,0.5)] to-transparent"></div>
+        <div class="relative flex h-full flex-col justify-between p-6" style="min-height:240px;">
+          <div class="flex items-center gap-3">
+            <img src="https://randomuser.me/api/portraits/women/21.jpg" alt="Aisha Khan" class="h-10 w-10 rounded-full object-cover ring-2 ring-white/40" />
+            <span class="font-semibold text-white text-sm">Aisha Khan</span>
+          </div>
+          <div class="mt-auto">
+            <p class="text-3xl font-bold text-[#60A5FA] leading-none">"</p>
+            <blockquote class="mt-2 text-sm leading-relaxed text-white">"Transformed my smile in just two visits. The doctors are highly skilled and the clinic environment is incredibly soothing."</blockquote>
+          </div>
+        </div>
+      </figure>
+    </div>
+
+    <!-- Column 3 — scrolls up (speed C) -->
+    <div class="rev-col rev-col-c flex flex-col gap-5">
+      <!-- set 1 -->
+      <figure class="rev-card rounded-3xl bg-[#EBF4FE] p-6">
+        <div class="flex items-center gap-3">
+          <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Michael Johnson" class="h-10 w-10 rounded-full object-cover" />
+          <span class="font-semibold text-[#0B1528] text-sm">Michael Johnson</span>
+        </div>
+        <p class="mt-5 text-3xl font-bold text-[#3B82F6] leading-none">"</p>
+        <blockquote class="mt-2 text-sm leading-relaxed text-[#374151]">"I had a great experience at this clinic. The team was professional, attentive, and supportive throughout treatment. The results were excellent, and I feel much more confident."</blockquote>
+      </figure>
+      <figure class="rev-card rounded-3xl bg-[#EBF4FE] p-6">
+        <div class="flex items-center gap-3">
+          <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Sana Mirza" class="h-10 w-10 rounded-full object-cover" />
+          <span class="font-semibold text-[#0B1528] text-sm">Sana Mirza</span>
+        </div>
+        <p class="mt-5 text-3xl font-bold text-[#3B82F6] leading-none">"</p>
+        <blockquote class="mt-2 text-sm leading-relaxed text-[#374151]">"The whole family goes here now. Booking is easy, staff are warm, and the kids actually enjoy their visits — which says everything!"</blockquote>
+      </figure>
+      <figure class="rev-card rounded-3xl bg-[#EBF4FE] p-6">
+        <div class="flex items-center gap-3">
+          <img src="https://randomuser.me/api/portraits/men/77.jpg" alt="Ahmed Ali" class="h-10 w-10 rounded-full object-cover" />
+          <span class="font-semibold text-[#0B1528] text-sm">Ahmed Ali</span>
+        </div>
+        <p class="mt-5 text-3xl font-bold text-[#3B82F6] leading-none">"</p>
+        <blockquote class="mt-2 text-sm leading-relaxed text-[#374151]">"From my first consultation to the final checkup, everything was seamless. Truly a world-class dental clinic right here in our city."</blockquote>
+      </figure>
+      <!-- set 2 duplicate -->
+      <figure class="rev-card rounded-3xl bg-[#EBF4FE] p-6">
+        <div class="flex items-center gap-3">
+          <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Michael Johnson" class="h-10 w-10 rounded-full object-cover" />
+          <span class="font-semibold text-[#0B1528] text-sm">Michael Johnson</span>
+        </div>
+        <p class="mt-5 text-3xl font-bold text-[#3B82F6] leading-none">"</p>
+        <blockquote class="mt-2 text-sm leading-relaxed text-[#374151]">"I had a great experience at this clinic. The team was professional, attentive, and supportive throughout treatment. The results were excellent, and I feel much more confident."</blockquote>
+      </figure>
+      <figure class="rev-card rounded-3xl bg-[#EBF4FE] p-6">
+        <div class="flex items-center gap-3">
+          <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Sana Mirza" class="h-10 w-10 rounded-full object-cover" />
+          <span class="font-semibold text-[#0B1528] text-sm">Sana Mirza</span>
+        </div>
+        <p class="mt-5 text-3xl font-bold text-[#3B82F6] leading-none">"</p>
+        <blockquote class="mt-2 text-sm leading-relaxed text-[#374151]">"The whole family goes here now. Booking is easy, staff are warm, and the kids actually enjoy their visits — which says everything!"</blockquote>
+      </figure>
+      <figure class="rev-card rounded-3xl bg-[#EBF4FE] p-6">
+        <div class="flex items-center gap-3">
+          <img src="https://randomuser.me/api/portraits/men/77.jpg" alt="Ahmed Ali" class="h-10 w-10 rounded-full object-cover" />
+          <span class="font-semibold text-[#0B1528] text-sm">Ahmed Ali</span>
+        </div>
+        <p class="mt-5 text-3xl font-bold text-[#3B82F6] leading-none">"</p>
+        <blockquote class="mt-2 text-sm leading-relaxed text-[#374151]">"From my first consultation to the final checkup, everything was seamless. Truly a world-class dental clinic right here in our city."</blockquote>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="px-3 pb-20 sm:px-6 sm:pb-28">
+  <div class="cta-box relative mx-auto grid max-w-7xl items-center gap-8 overflow-hidden rounded-[2rem] bg-ice p-8 sm:rounded-[2.5rem] sm:p-14 lg:grid-cols-2 lg:p-16">
+    <div>
+      <h2 class="text-3xl font-light leading-tight tracking-tighter sm:text-5xl">Ready for a healthier, <span class="text-ink/40">more confident smile?</span></h2>
+      <p class="mt-5 max-w-md text-muted">Book your appointment with our dental team today.</p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="#contact" class="inline-flex min-h-[48px] items-center rounded-full bg-ink px-7 py-3.5 font-medium text-white transition hover:bg-black/80">Book Appointment</a>
+        <a href="mailto:hello@identalcare.example" class="inline-flex min-h-[48px] items-center rounded-full border border-ink/20 bg-white/60 px-7 py-3.5 font-medium transition hover:bg-white">Contact Us</a>
+      </div>
+    </div>
+    <div class="aspect-[16/10] overflow-hidden rounded-3xl bg-sky"><img loading="lazy" src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=800&q=80&auto=format" alt="Modern dental treatment room" class="h-full w-full object-cover" width="800" height="500" /></div>
+  </div>
+</section>
+
+<!-- ================= APPOINTMENT FORM ================= -->
+<section id="contact" class="mx-auto max-w-7xl px-6 py-20 sm:py-28" aria-labelledby="form-title">
+
+  <!-- Heading -->
+  <div class="text-center" data-reveal>
+    <h2 id="form-title" class="mx-auto max-w-3xl text-4xl font-light leading-[1.1] tracking-tight text-[#0B1528] sm:text-5xl lg:text-6xl">
+      Dental Treatment <em class="serif-italic font-normal">Agreement<br>And</em> Terms Overview
+    </h2>
+  </div>
+
+  <!-- Two-panel layout -->
+  <div class="cta-box mt-14 grid gap-6 lg:grid-cols-[320px_1fr]" data-reveal>
+
+    <!-- LEFT: Coordinator + Hours -->
+    <div class="rounded-[2rem] border border-[#E2EDF8] bg-white p-7 shadow-sm">
+
+      <!-- Coordinator -->
+      <div class="flex items-center gap-3 rounded-2xl bg-[#EBF4FE] px-4 py-3">
+        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Charlotte Brown" class="h-10 w-10 rounded-full object-cover ring-2 ring-white" />
+        <div>
+          <p class="text-[11px] text-[#64748B]">Schedule an appointment to speak with</p>
+          <p class="text-sm font-semibold text-[#0B1528]">Charlotte Brown</p>
+        </div>
+      </div>
+
+      <div class="mt-7 border-t border-[#E8F0F8]"></div>
+
+      <!-- Opening hours -->
+      <h3 class="mt-6 text-base font-semibold text-[#0B1528]">Opening Hours</h3>
+      <ul class="mt-4 space-y-3">
+        <li class="flex items-center justify-between text-sm text-[#374151]">
+          <span class="text-[#64748B]">Monday — Friday:</span>
+          <span class="font-medium">8.00 — 17.00</span>
+        </li>
+        <li class="flex items-center justify-between text-sm text-[#374151]">
+          <span class="text-[#64748B]">Saturday:</span>
+          <span class="font-medium">9.30 — 17.30</span>
+        </li>
+        <li class="flex items-center justify-between text-sm text-[#374151]">
+          <span class="text-[#64748B]">Sunday:</span>
+          <span class="font-medium">9.30 — 15.00</span>
+        </li>
+      </ul>
+
+      <div class="mt-7 border-t border-[#E8F0F8]"></div>
+
+      <!-- Contact info -->
+      <h3 class="mt-6 text-base font-semibold text-[#0B1528]">Contact Us</h3>
+      <ul class="mt-4 space-y-3 text-sm">
+        <li class="flex items-start gap-2 text-[#374151]">
+          <svg class="mt-0.5 h-4 w-4 shrink-0 text-[#3B82F6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.64A2 2 0 012 .18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+          +92 000 0000000
+        </li>
+        <li class="flex items-start gap-2 text-[#374151]">
+          <svg class="mt-0.5 h-4 w-4 shrink-0 text-[#3B82F6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          hello@identalcare.example
+        </li>
+        <li class="flex items-start gap-2 text-[#374151]">
+          <svg class="mt-0.5 h-4 w-4 shrink-0 text-[#3B82F6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Gulberg III, Lahore
+        </li>
+      </ul>
+    </div>
+
+    <!-- RIGHT: Form -->
+    <div class="rounded-[2rem] border border-[#E2EDF8] bg-white p-7 shadow-sm sm:p-10">
+      <form id="appointment-form" novalidate class="space-y-6">
+
+        <!-- Row 1: Name + Phone -->
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div>
+            <label for="f-name" class="block text-sm font-medium text-[#0B1528]">Full Name <span class="text-[#3B82F6]">*</span></label>
+            <input id="f-name" type="text" placeholder="Enter your full name" required
+              class="appt-input mt-2 w-full border-b border-[#CBD5E1] bg-transparent pb-2.5 text-sm text-[#0B1528] placeholder-[#94A3B8] outline-none transition focus:border-[#3B82F6]" />
+          </div>
+          <div>
+            <label for="f-phone" class="block text-sm font-medium text-[#0B1528]">Number <span class="text-[#3B82F6]">*</span></label>
+            <input id="f-phone" type="tel" placeholder="Enter your phone number" required
+              class="appt-input mt-2 w-full border-b border-[#CBD5E1] bg-transparent pb-2.5 text-sm text-[#0B1528] placeholder-[#94A3B8] outline-none transition focus:border-[#3B82F6]" />
+          </div>
+        </div>
+
+        <!-- Row 2: Email + Date -->
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div>
+            <label for="f-email" class="block text-sm font-medium text-[#0B1528]">Email <span class="text-[#3B82F6]">*</span></label>
+            <input id="f-email" type="email" placeholder="Enter your email" required
+              class="appt-input mt-2 w-full border-b border-[#CBD5E1] bg-transparent pb-2.5 text-sm text-[#0B1528] placeholder-[#94A3B8] outline-none transition focus:border-[#3B82F6]" />
+          </div>
+          <div>
+            <label for="f-date" class="block text-sm font-medium text-[#0B1528]">Preferred Date <span class="text-[#3B82F6]">*</span></label>
+            <input id="f-date" type="date" required
+              class="appt-input mt-2 w-full border-b border-[#CBD5E1] bg-transparent pb-2.5 text-sm text-[#0B1528] placeholder-[#94A3B8] outline-none transition focus:border-[#3B82F6]" />
+          </div>
+        </div>
+
+        <!-- Row 3: Doctor + Service -->
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div>
+            <label for="f-doctor" class="block text-sm font-medium text-[#0B1528]">Select Doctor <span class="text-[#3B82F6]">*</span></label>
+            <select id="f-doctor" required
+              class="appt-input mt-2 w-full appearance-none border-b border-[#CBD5E1] bg-transparent pb-2.5 text-sm text-[#0B1528] outline-none transition focus:border-[#3B82F6]">
+              <option value="" disabled selected>Select one...</option>
+              <option>Dr. Sara Ahmed — General Dentist</option>
+              <option>Dr. Karim Hassan — Orthodontist</option>
+              <option>Dr. Nadia Raza — Cosmetic Dentist</option>
+            </select>
+          </div>
+          <div>
+            <label for="f-service" class="block text-sm font-medium text-[#0B1528]">Select Service <span class="text-[#3B82F6]">*</span></label>
+            <select id="f-service" required
+              class="appt-input mt-2 w-full appearance-none border-b border-[#CBD5E1] bg-transparent pb-2.5 text-sm text-[#0B1528] outline-none transition focus:border-[#3B82F6]">
+              <option value="" disabled selected>Select one...</option>
+              <option>Basic Checkup — $49</option>
+              <option>Smile Consultation — $59</option>
+              <option>Dental Cleaning — $79</option>
+              <option>Braces Consultation — $149</option>
+              <option>Preventive Care</option>
+              <option>Restorative Dentistry</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row 4: Message -->
+        <div>
+          <label for="f-msg" class="block text-sm font-medium text-[#0B1528]">Write Message <span class="text-[#3B82F6]">*</span></label>
+          <textarea id="f-msg" rows="4" placeholder="Enter your message" required
+            class="appt-input mt-2 w-full resize-none border-b border-[#CBD5E1] bg-transparent pb-2.5 text-sm text-[#0B1528] placeholder-[#94A3B8] outline-none transition focus:border-[#3B82F6]"></textarea>
+        </div>
+
+        <!-- Submit -->
+        <div class="pt-2">
+          <button type="submit"
+            class="inline-flex items-center gap-3 rounded-full border border-[#4A8BE2] bg-[#EBF4FE] px-7 py-3.5 text-sm font-semibold text-[#1E3A8A] transition-all hover:bg-[#3B82F6] hover:text-white hover:border-[#3B82F6] group">
+            Book An Appointment
+            <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="mx-auto mt-20 max-w-7xl px-6 pb-8">
+  <div class="grid gap-10 border-b border-line pb-12 md:grid-cols-2 lg:grid-cols-5">
+    <div class="lg:col-span-2">
+      <a href="#home" class="inline-block" aria-label="iDental Care">
+        <img src="b7544c45-5b20-4286-8f57-9edcbed1e6da-removebg-preview.png" alt="iDental Care" class="h-24 sm:h-32 w-auto object-contain -ml-4 -my-3" />
+      </a>
+      <p class="max-w-xs text-sm text-muted">Modern, personalized dental care for every member of the family.</p>
+    </div>
+    <nav aria-label="Footer"><h2 class="text-sm font-semibold">Navigate</h2><ul class="mt-4 space-y-2 text-sm text-muted"><li><a class="hover:text-ink" href="#home">Home</a></li><li><a class="hover:text-ink" href="#services">Services</a></li><li><a class="hover:text-ink" href="#about">About</a></li><li><a class="hover:text-ink" href="#contact">Contact</a></li></ul></nav>
+    <div><h2 class="text-sm font-semibold">Services</h2><ul class="mt-4 space-y-2 text-sm text-muted"><li>Preventive Care</li><li>Professional Cleaning</li><li>Restorative Dentistry</li></ul></div>
+    <div><h2 class="text-sm font-semibold">Visit us</h2><address class="mt-4 space-y-2 text-sm not-italic text-muted"><p>Gulberg III, Lahore</p><p>+92 000 0000000</p><p>Mon–Sat, 9am – 8pm</p></address></div>
+  </div>
+  <div class="flex flex-col items-center justify-between gap-4 pt-6 text-xs text-muted sm:flex-row">
+    <p>© <span id="year">2026</span> iDental Care. All rights reserved.</p>
+    <ul class="flex gap-5"><li><a class="hover:text-ink" href="#" aria-label="Instagram">Instagram</a></li><li><a class="hover:text-ink" href="#" aria-label="Facebook">Facebook</a></li><li><a class="hover:text-ink" href="#" aria-label="LinkedIn">LinkedIn</a></li></ul>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+/* iDental Care – interactions & animation. Works without GSAP/Lenis (falls back gracefully). */
+(() => {
+  const $ = (s, c = document) => c.querySelector(s);
+  const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasGsap = typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
+
+  /* ---------- Footer year ---------- */
+  $('#year').textContent = new Date().getFullYear();
+
+  /* ---------- Smooth scroll (Lenis) ---------- */
+  let lenis = null;
+  if (!reduceMotion && typeof Lenis !== 'undefined') {
+    lenis = new Lenis({ duration: 1.05, easing: t => 1 - Math.pow(1 - t, 3) });
+    if (hasGsap) {
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add(t => lenis.raf(t * 1000));
+      gsap.ticker.lagSmoothing(0);
+    } else {
+      const raf = t => { lenis.raf(t); requestAnimationFrame(raf); };
+      requestAnimationFrame(raf);
+    }
+  }
+
+  /* ---------- Anchor navigation (offsets for the fixed navbar) ---------- */
+  $$('a[href^="#"]').forEach(a => {
+    const id = a.getAttribute('href');
+    if (id.length < 2) return;
+    a.addEventListener('click', e => {
+      const target = $(id);
+      if (!target) return;
+      e.preventDefault();
+      closeMenu();
+      if (lenis) lenis.scrollTo(target, { offset: -80 });
+      else target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
+    });
+  });
+
+  /* ---------- Mobile menu ---------- */
+  const btn = $('#menu-btn'), menu = $('#mobile-menu');
+  function closeMenu() {
+    menu.classList.add('hidden');
+    btn.setAttribute('aria-expanded', 'false');
+  }
+  btn.addEventListener('click', () => {
+    const open = menu.classList.toggle('hidden') === false;
+    btn.setAttribute('aria-expanded', String(open));
+  });
+  addEventListener('keydown', e => e.key === 'Escape' && closeMenu());
+  addEventListener('resize', () => innerWidth >= 768 && closeMenu());
+
+  /* ---------- Navbar scrolled state ---------- */
+  const shell = $('.nav-shell');
+  const onScroll = () => shell.classList.toggle('is-scrolled', scrollY > 20);
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- Active nav link (based on visible section) ---------- */
+  const links = $$('.nav-link');
+  const sections = links.map(l => $(l.getAttribute('href'))).filter(Boolean);
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      links.forEach(l => l.classList.toggle('is-active', l.getAttribute('href') === '#' + en.target.id));
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  sections.forEach(s => io.observe(s));
+
+  /* ---------- Review marquee arrow controls ---------- */
+  const revCols = $$('.rev-col');
+  const revSpeeds = { a: 22, b: 28, c: 18 };
+  const applySpeed = (multiplier) => {
+    revCols.forEach(col => {
+      const dur = parseFloat(getComputedStyle(col).animationDuration) || 22;
+      col.style.animationDuration = Math.max(6, dur * multiplier) + 's';
+    });
+  };
+  const revPrev = $('#rev-prev'), revNext = $('#rev-next');
+  if (revPrev) revPrev.addEventListener('click', () => applySpeed(0.65));
+  if (revNext) revNext.addEventListener('click', () => applySpeed(1.4));
+
+  /* ---------- Treatment Workflow Interactive Steps ---------- */
+  const workflowData = [
+    {
+      title: "Book Appointment",
+      desc: "Schedule your dental visit easily with flexible timing, friendly support, and quick appointment confirmation for every patient.",
+      img: "appointment.avif"
+    },
+    {
+      title: "Initial Consultation",
+      desc: "Meet with our experienced dental specialists to discuss your oral health goals, medical history, and any concerns.",
+      img: "checkup.avif"
+    },
+    {
+      title: "Comprehensive Examination",
+      desc: "Detailed 3D digital imaging, X-rays, and intraoral scans to accurately assess your teeth, gums, and jaw structure.",
+      img: "cleaning.avif"
+    },
+    {
+      title: "Custom Treatment Plan",
+      desc: "A clear, transparent breakdown of your recommended treatments, expected timelines, and tailored care options.",
+      img: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=900&q=80&auto=format"
+    },
+    {
+      title: "Comfortable Treatment",
+      desc: "State-of-the-art gentle procedures performed with modern technology and patient-first comfort options.",
+      img: "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=900&q=80&auto=format"
+    },
+    {
+      title: "Ongoing Care & Results",
+      desc: "Dedicated follow-up check-ins, hygiene maintenance tips, and lasting care to keep your smile healthy and radiant.",
+      img: "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=900&q=80&auto=format"
+    }
+  ];
+
+  const stepBtns = $$('.step-nav-btn');
+  const wfTitle = $('#workflow-step-title');
+  const wfDesc = $('#workflow-step-desc');
+  const wfImg = $('#workflow-img');
+
+  stepBtns.forEach((btn, i) => {
+    btn.addEventListener('click', () => {
+      stepBtns.forEach(b => b.classList.remove('active-step'));
+      btn.classList.add('active-step');
+
+      const data = workflowData[i];
+      if (data && wfTitle && wfDesc && wfImg) {
+        wfImg.style.opacity = '0.2';
+        setTimeout(() => {
+          wfTitle.textContent = data.title;
+          wfDesc.textContent = data.desc;
+          wfImg.src = data.img;
+          wfImg.style.opacity = '1';
+        }, 150);
+      }
+    });
+  });
+
+  /* ---------- Animations ---------- */
+  if (!hasGsap || reduceMotion) {
+    // Show everything instantly
+    $$('[data-reveal], .stagger-item, .hero-anim, .slide-card, .float-card').forEach(el => (el.style.opacity = 1));
+    return;
+  }
+  gsap.registerPlugin(ScrollTrigger);
+  const ease = 'power3.out';
+
+  // Hero: one orchestrated entrance on load
+  gsap.timeline({ defaults: { ease, duration: 1 } })
+    .fromTo('.hero-anim', { y: 40, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.12 });
+
+  // Hero image: slow settle-in + gentle parallax as you scroll away
+  gsap.fromTo('.hero-img', { y: 60, opacity: 0, scale: 1.05 }, { y: 0, opacity: 1, scale: 1, duration: 1.5, ease });
+  gsap.fromTo('.hero-word', { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 1.6, ease, delay: 0.1 });
+  gsap.to('.hero-img', { yPercent: 8, ease: 'none',
+    scrollTrigger: { trigger: '#home', start: 'top top', end: 'bottom top', scrub: true } });
+
+  // Generic reveal for headings/blocks
+  $$('[data-reveal]').forEach(el =>
+    gsap.fromTo(el, { y: 36, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease,
+      scrollTrigger: { trigger: el, start: 'top 85%', once: true } }));
+
+  // Staggered groups (stats, cards, process, testimonials)
+  $$('[data-stagger]').forEach(group => {
+    const items = $$(':scope > *', group);
+    gsap.fromTo(items, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease, stagger: 0.12,
+      scrollTrigger: { trigger: group, start: 'top 85%', once: true } });
+  });
+
+  // Membership cards slide in from the right
+  $$('.slide-card').forEach((c, i) =>
+    gsap.fromTo(c, { x: 60, opacity: 0 }, { x: 0, opacity: 1, duration: 1, ease, delay: i * 0.15,
+      scrollTrigger: { trigger: c, start: 'top 88%', once: true } }));
+
+  // Stat counters
+  $$('[data-count]').forEach(el => {
+    const end = +el.dataset.count, obj = { v: 0 };
+    ScrollTrigger.create({ trigger: el, start: 'top 90%', once: true, onEnter: () =>
+      gsap.to(obj, { v: end, duration: 1.6, ease: 'power2.out', onUpdate: () => (el.textContent = Math.round(obj.v)) }) });
+  });
+
+  // Images gently scale while scrolling through
+  $$('.img-wrap img').forEach(img =>
+    gsap.fromTo(img, { scale: 1.12 }, { scale: 1, ease: 'none',
+      scrollTrigger: { trigger: img, start: 'top bottom', end: 'bottom 40%', scrub: true } }));
+
+  // CTA entrance
+  gsap.fromTo('.cta-box', { y: 50, opacity: 0.001, scale: 0.98 }, { y: 0, opacity: 1, scale: 1, duration: 1.1, ease,
+    scrollTrigger: { trigger: '.cta-box', start: 'top 88%', once: true } });
+
+  addEventListener('load', () => ScrollTrigger.refresh());
+})();
+</script>
+</body>
+</html>
